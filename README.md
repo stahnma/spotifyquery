@@ -29,6 +29,7 @@ It basically uses applescript and embeds that into the go project.
   "artwork_url": "https://i.scdn.co/image/ab67616d0000b273545d35897b007482838699fd",
   "collected_at": "2025-08-08T20:38:46.730808Z"
 }
+```
 
 
 # License
