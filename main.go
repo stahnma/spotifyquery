@@ -37,6 +37,9 @@ type Output struct {
 	Starred     *bool   `json:"starred,omitempty"`
 	ArtworkURL  *string `json:"artwork_url,omitempty"`
 
+	// New: shareable HTTPS URL derived from the Spotify ID/URI when possible.
+	ShareURL   *string `json:"share_url,omitempty"`
+
 	CollectedAt string `json:"collected_at"`
 	Error       string `json:"error,omitempty"`
 }
@@ -142,6 +145,13 @@ func main() {
 	setInt(&out.Popularity, "popularity")
 	setBool(&out.Starred, "starred")
 
+	// Derive shareable URL from the ID/URI when possible.
+	if out.ID != nil {
+		if u, ok := spotifyShareURL(*out.ID); ok {
+			out.ShareURL = &u
+		}
+	}
+
 	emit(out)
 }
 
@@ -172,6 +182,48 @@ func parseTSV(s string) map[string]string {
 		}
 	}
 	return m
+}
+
+// spotifyShareURL converts common Spotify identifiers to a shareable HTTPS URL.
+//
+// Supported inputs:
+//   - spotify:<type>:<id>   (e.g., spotify:track:1BpMw2vf4sWnFXy6liC5tD)
+//   - http(s)://open.spotify.com/<type>/<id>  (normalized to https)
+// Skips spotify:local:* since those don't have web share URLs.
+// Returns (url, true) on success; ("", false) otherwise.
+func spotifyShareURL(s string) (string, bool) {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return "", false
+	}
+
+	// Already a web URL? Normalize to https.
+	if strings.HasPrefix(s, "https://open.spotify.com/") {
+		return s, true
+	}
+	if strings.HasPrefix(s, "http://open.spotify.com/") {
+		return "https://open.spotify.com/" + strings.TrimPrefix(s, "http://open.spotify.com/"), true
+	}
+
+	// spotify: URIs
+	if strings.HasPrefix(s, "spotify:local:") {
+		// Local files aren't hosted on Spotify's web player.
+		return "", false
+	}
+	if strings.HasPrefix(s, "spotify:") {
+		parts := strings.Split(s, ":")
+		// Expect at least spotify:<type>:<id>
+		if len(parts) >= 3 {
+			typ := parts[1]
+			id := parts[2]
+			if typ != "" && id != "" {
+				return "https://open.spotify.com/" + typ + "/" + id, true
+			}
+		}
+	}
+
+	// Bare IDs aren't convertible without knowing the type.
+	return "", false
 }
 
 func emit(o Output) {
