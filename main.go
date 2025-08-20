@@ -233,7 +233,7 @@ func spotifyShareURL(s string) (string, bool) {
 // ANSI color codes for JSON syntax highlighting
 const (
 	colorReset  = "\x1b[0m"
-	colorKey    = "\x1b[34m" // blue
+	colorKey    = "\x1b[94m" // bright blue (lighter for dark terminals)
 	colorString = "\x1b[32m" // green
 	colorNumber = "\x1b[36m" // cyan
 	colorBool   = "\x1b[33m" // yellow
