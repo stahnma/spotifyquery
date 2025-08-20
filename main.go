@@ -8,22 +8,25 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	"golang.org/x/term"
 )
 
 //go:embed spotify_info.applescript
 var spotifyScript string
 
 type Output struct {
-	Playing          bool    `json:"playing"`
-	State            string  `json:"state"` // enum: not_running, stopped, paused, playing, unknown
-	SoundVolume      *int    `json:"sound_volume,omitempty"`
-	Shuffling        *bool   `json:"shuffling,omitempty"`
-	ShufflingEnabled *bool   `json:"shuffling_enabled,omitempty"`
-	Repeating        *bool   `json:"repeating,omitempty"`
-	PlayerPositionMs *int64  `json:"player_position_ms,omitempty"`
+	Playing          bool   `json:"playing"`
+	State            string `json:"state"` // enum: not_running, stopped, paused, playing, unknown
+	SoundVolume      *int   `json:"sound_volume,omitempty"`
+	Shuffling        *bool  `json:"shuffling,omitempty"`
+	ShufflingEnabled *bool  `json:"shuffling_enabled,omitempty"`
+	Repeating        *bool  `json:"repeating,omitempty"`
+	PlayerPositionMs *int64 `json:"player_position_ms,omitempty"`
 
 	Name        *string `json:"name,omitempty"`
 	Artist      *string `json:"artist,omitempty"`
@@ -38,7 +41,7 @@ type Output struct {
 	ArtworkURL  *string `json:"artwork_url,omitempty"`
 
 	// New: shareable HTTPS URL derived from the Spotify ID/URI when possible.
-	ShareURL   *string `json:"share_url,omitempty"`
+	ShareURL *string `json:"share_url,omitempty"`
 
 	CollectedAt string `json:"collected_at"`
 	Error       string `json:"error,omitempty"`
@@ -189,6 +192,7 @@ func parseTSV(s string) map[string]string {
 // Supported inputs:
 //   - spotify:<type>:<id>   (e.g., spotify:track:1BpMw2vf4sWnFXy6liC5tD)
 //   - http(s)://open.spotify.com/<type>/<id>  (normalized to https)
+//
 // Skips spotify:local:* since those don't have web share URLs.
 // Returns (url, true) on success; ("", false) otherwise.
 func spotifyShareURL(s string) (string, bool) {
@@ -226,8 +230,91 @@ func spotifyShareURL(s string) (string, bool) {
 	return "", false
 }
 
+// ANSI color codes for JSON syntax highlighting
+const (
+	colorReset  = "\x1b[0m"
+	colorKey    = "\x1b[34m" // blue
+	colorString = "\x1b[32m" // green
+	colorNumber = "\x1b[36m" // cyan
+	colorBool   = "\x1b[33m" // yellow
+	colorNull   = "\x1b[90m" // gray
+	colorBrace  = "\x1b[35m" // magenta
+)
+
+// isTTY checks if the file descriptor is a terminal and supports colors
+func isTTY(fd int) bool {
+	// Check if it's a terminal
+	if !term.IsTerminal(fd) {
+		return false
+	}
+
+	// Additional check for color support
+	termEnv := os.Getenv("TERM")
+	colorTerm := os.Getenv("COLORTERM")
+	noColor := os.Getenv("NO_COLOR")
+
+	// Don't colorize if NO_COLOR is set
+	if noColor != "" {
+		return false
+	}
+
+	// Colorize if COLORTERM is set or TERM suggests color support
+	return colorTerm != "" ||
+		strings.Contains(termEnv, "color") ||
+		strings.Contains(termEnv, "256") ||
+		termEnv == "xterm" ||
+		termEnv == "screen"
+}
+
+// colorizeJSON adds ANSI color codes to JSON output for syntax highlighting
+func colorizeJSON(data []byte) []byte {
+	isTTYResult := isTTY(int(os.Stdout.Fd()))
+
+	if !isTTYResult {
+		return data
+	}
+
+	s := string(data)
+
+	// Apply colors in a careful order to avoid conflicts
+	// 1. First, color the structural elements
+	braceRegex := regexp.MustCompile(`([{}[\],])`)
+	s = braceRegex.ReplaceAllString(s, colorBrace+`$1`+colorReset)
+
+	// 2. Then color keys (quoted strings followed by colon)
+	keyRegex := regexp.MustCompile(`"([^"]+)"\s*:`)
+	s = keyRegex.ReplaceAllString(s, colorKey+`"$1"`+colorReset+`:`)
+
+	// 3. Color boolean values - match exactly true/false as values
+	boolRegex := regexp.MustCompile(`:\s*(true|false)\s*([,}])`)
+	s = boolRegex.ReplaceAllString(s, `: `+colorBool+`$1`+colorReset+`$2`)
+
+	// 4. Color null values
+	nullRegex := regexp.MustCompile(`:\s*(null)\s*([,}])`)
+	s = nullRegex.ReplaceAllString(s, `: `+colorNull+`$1`+colorReset+`$2`)
+
+	// 5. Color numbers - match exactly numbers as values
+	numberRegex := regexp.MustCompile(`:\s*(-?\d+(?:\.\d+)?)\s*([,}])`)
+	s = numberRegex.ReplaceAllString(s, `: `+colorNumber+`$1`+colorReset+`$2`)
+
+	// 6. Finally, color string values (everything else in quotes)
+	stringRegex := regexp.MustCompile(`:\s*"([^"]*)"`)
+	s = stringRegex.ReplaceAllString(s, `: `+colorString+`"$1"`+colorReset)
+
+	return []byte(s)
+}
+
 func emit(o Output) {
-	enc := json.NewEncoder(os.Stdout)
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
 	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
 	enc.Encode(o)
+
+	// Get the JSON bytes and apply coloring if outputting to a TTY
+	jsonBytes := buf.Bytes()
+	coloredBytes := colorizeJSON(jsonBytes)
+
+	// Try using fmt.Print instead of os.Stdout.Write
+	fmt.Print(string(coloredBytes))
 }
