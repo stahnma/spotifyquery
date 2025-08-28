@@ -1,3 +1,4 @@
+// Package cmd provides the command-line interface for the spotifyquery application.
 package cmd
 
 import (
@@ -41,7 +42,9 @@ func init() {
 	rootCmd.PersistentFlags().BoolVar(&post, "post", false, "post track information to Slack")
 
 	// Bind flags to viper
-	viper.BindPFlag("post", rootCmd.PersistentFlags().Lookup("post"))
+	if err := viper.BindPFlag("post", rootCmd.PersistentFlags().Lookup("post")); err != nil {
+		panic(fmt.Sprintf("failed to bind flag: %v", err))
+	}
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -64,7 +67,7 @@ func initConfig() {
 }
 
 // runRoot executes the main logic
-func runRoot(cmd *cobra.Command, args []string) error {
+func runRoot(_ *cobra.Command, _ []string) error {
 	// Load configuration
 	cfg, err := config.LoadConfig(".")
 	if err != nil {
@@ -74,10 +77,10 @@ func runRoot(cmd *cobra.Command, args []string) error {
 	// Check if we should post to Slack
 	if post {
 		if cfg.Slack.BotToken == "" {
-			return fmt.Errorf("Slack bot token is required. Set 'slack.bot_token' in config.yaml or SPOTIFYQUERY_SLACK_BOT_TOKEN")
+			return fmt.Errorf("slack bot token is required. Set 'slack.bot_token' in config.yaml or SPOTIFYQUERY_SLACK_BOT_TOKEN")
 		}
 		if cfg.Slack.ChannelID == "" {
-			return fmt.Errorf("Slack channel ID is required. Set 'slack.channel_id' in config.yaml or SPOTIFYQUERY_SLACK_CHANNEL_ID")
+			return fmt.Errorf("slack channel ID is required. Set 'slack.channel_id' in config.yaml or SPOTIFYQUERY_SLACK_CHANNEL_ID")
 		}
 	}
 

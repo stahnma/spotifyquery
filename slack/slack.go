@@ -1,6 +1,10 @@
+// Package slack provides Slack integration functionality for the spotifyquery application.
 package slack
 
 import (
+	"fmt"
+	"net/url"
+
 	"github.com/slack-go/slack"
 )
 
@@ -19,12 +23,22 @@ func NewService(botToken, channelID string) *Service {
 	}
 }
 
-// PostTrackInfo posts just the shareable URI to Slack for automatic unfurling
-func (s *Service) PostTrackInfo(shareURL string) error {
-	// Post just the URL - Slack will automatically unfurl it with rich preview
+// PostTrackInfo posts the track info with artist, song name, and both Spotify and YouTube links
+// in a single message. Spotify links are clickable but don't unfurl, YouTube search links are formatted clearly.
+func (s *Service) PostTrackInfo(artist, songName, spotifyURL string) error {
+	// Create YouTube search URL
+	searchQuery := fmt.Sprintf("%s %s", artist, songName)
+	youtubeURL := fmt.Sprintf("https://www.youtube.com/results?search_query=%s",
+		url.QueryEscape(searchQuery))
+
+	// Post the main message with artist, song name, and both links
+	// Disable unfurling to prevent URL previews, but links remain clickable
+	message := fmt.Sprintf("%s - %s\n🎵 Spotify: %s\n🔍 YouTube: %s", artist, songName, spotifyURL, youtubeURL)
+
 	_, _, err := s.client.PostMessage(
 		s.channelID,
-		slack.MsgOptionText(shareURL, false),
+		slack.MsgOptionText(message, false),
+		slack.MsgOptionDisableLinkUnfurl(), // Prevent URL previews but links remain clickable
 	)
 
 	return err

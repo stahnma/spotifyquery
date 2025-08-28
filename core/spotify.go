@@ -1,3 +1,4 @@
+// Package core provides the main Spotify query functionality for the spotifyquery application.
 package core
 
 import (
@@ -63,7 +64,8 @@ func RunSpotifyQuery(postToSlack bool, cfg *config.Config) error {
 
 	// If osascript failed and gave nothing, emit an error payload.
 	if err != nil && strings.TrimSpace(raw) == "" {
-		emit(Output{CollectedAt: now, Error: err.Error()})
+		errorOutput := Output{CollectedAt: now, Error: err.Error()}
+		emit(&errorOutput)
 		return err
 	}
 
@@ -169,12 +171,12 @@ func RunSpotifyQuery(postToSlack bool, cfg *config.Config) error {
 	if postToSlack && out.Name != nil && out.Artist != nil && out.ShareURL != nil {
 		slackService := slack.NewService(cfg.Slack.BotToken, cfg.Slack.ChannelID)
 
-		if err := slackService.PostTrackInfo(*out.ShareURL); err != nil {
+		if err := slackService.PostTrackInfo(*out.Artist, *out.Name, *out.ShareURL); err != nil {
 			fmt.Fprintf(os.Stderr, "Warning: Failed to post to Slack: %v\n", err)
 		}
 	}
 
-	emit(out)
+	emit(&out)
 	return nil
 }
 
@@ -344,8 +346,8 @@ func colorizeJSON(data []byte) []byte {
 	s = numberRegex.ReplaceAllString(s, `: `+colorNumber+`$1`+colorReset+`$2`)
 
 	// 6. Finally, color string values (everything else in quotes)
-	stringRegex := regexp.MustCompile(`:\s*"([^"]*)"`)
-	s = stringRegex.ReplaceAllString(s, `: `+colorString+`"$1"`+colorReset)
+	stringRegex := regexp.MustCompile(`:\s*"([^"]*)"\s*([,}])`)
+	s = stringRegex.ReplaceAllString(s, `: `+colorString+`"$1"`+colorReset+`$2`)
 
 	return []byte(s)
 }
@@ -354,12 +356,15 @@ func colorizeJSON(data []byte) []byte {
 // The output is pretty-printed with 2-space indentation and includes
 // color syntax highlighting when outputting to a color-supporting terminal.
 // When piped to files or non-color terminals, outputs plain JSON.
-func emit(o Output) {
+func emit(o *Output) {
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
 	enc.SetEscapeHTML(false)
 	enc.SetIndent("", "  ")
-	enc.Encode(o)
+	if err := enc.Encode(o); err != nil {
+		fmt.Fprintf(os.Stderr, "Error encoding JSON: %v\n", err)
+		return
+	}
 
 	// Get the JSON bytes and apply coloring if outputting to a TTY
 	jsonBytes := buf.Bytes()
