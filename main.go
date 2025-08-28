@@ -1,3 +1,6 @@
+// Package main provides a command-line tool for querying Spotify player information
+// on macOS using AppleScript. It outputs detailed JSON data about the currently
+// playing track, player state, and generates shareable URLs.
 package main
 
 import (
@@ -19,32 +22,39 @@ import (
 //go:embed spotify_info.applescript
 var spotifyScript string
 
+// Output represents the complete state and metadata of the Spotify player.
+// It includes player state, current track information, and derived data like
+// shareable URLs. All pointer fields use omitempty to exclude null values
+// from JSON output when the data is unavailable.
 type Output struct {
-	Playing          bool   `json:"playing"`
-	State            string `json:"state"` // enum: not_running, stopped, paused, playing, unknown
-	SoundVolume      *int   `json:"sound_volume,omitempty"`
-	Shuffling        *bool  `json:"shuffling,omitempty"`
-	ShufflingEnabled *bool  `json:"shuffling_enabled,omitempty"`
-	Repeating        *bool  `json:"repeating,omitempty"`
-	PlayerPositionMs *int64 `json:"player_position_ms,omitempty"`
+	// Player state fields
+	Playing          bool   `json:"playing"`                      // Whether audio is currently playing
+	State            string `json:"state"`                        // Player state: not_running, stopped, paused, playing, unknown
+	SoundVolume      *int   `json:"sound_volume,omitempty"`       // Volume level (0-100)
+	Shuffling        *bool  `json:"shuffling,omitempty"`          // Whether shuffle mode is active
+	ShufflingEnabled *bool  `json:"shuffling_enabled,omitempty"`  // Whether shuffle mode is available
+	Repeating        *bool  `json:"repeating,omitempty"`          // Whether repeat mode is active
+	PlayerPositionMs *int64 `json:"player_position_ms,omitempty"` // Current position in milliseconds
 
-	Name        *string `json:"name,omitempty"`
-	Artist      *string `json:"artist,omitempty"`
-	Album       *string `json:"album,omitempty"`
-	AlbumArtist *string `json:"album_artist,omitempty"`
-	DurationMs  *int64  `json:"duration_ms,omitempty"`
-	TrackNumber *int    `json:"track_number,omitempty"`
-	DiscNumber  *int    `json:"disc_number,omitempty"`
-	ID          *string `json:"id,omitempty"`
-	Popularity  *int    `json:"popularity,omitempty"`
-	Starred     *bool   `json:"starred,omitempty"`
-	ArtworkURL  *string `json:"artwork_url,omitempty"`
+	// Track metadata fields
+	Name        *string `json:"name,omitempty"`         // Track title
+	Artist      *string `json:"artist,omitempty"`       // Primary artist name
+	Album       *string `json:"album,omitempty"`        // Album title
+	AlbumArtist *string `json:"album_artist,omitempty"` // Album artist (may differ from track artist)
+	DurationMs  *int64  `json:"duration_ms,omitempty"`  // Total track duration in milliseconds
+	TrackNumber *int    `json:"track_number,omitempty"` // Track number within album
+	DiscNumber  *int    `json:"disc_number,omitempty"`  // Disc number for multi-disc albums
+	ID          *string `json:"id,omitempty"`           // Spotify URI or track ID
+	Popularity  *int    `json:"popularity,omitempty"`   // Spotify popularity score (0-100)
+	Starred     *bool   `json:"starred,omitempty"`      // Whether track is starred/liked
+	ArtworkURL  *string `json:"artwork_url,omitempty"`  // Album artwork image URL
 
-	// New: shareable HTTPS URL derived from the Spotify ID/URI when possible.
-	ShareURL *string `json:"share_url,omitempty"`
+	// Derived fields
+	ShareURL *string `json:"share_url,omitempty"` // HTTPS shareable URL derived from Spotify ID
 
-	CollectedAt string `json:"collected_at"`
-	Error       string `json:"error,omitempty"`
+	// Metadata fields
+	CollectedAt string `json:"collected_at"`    // ISO 8601 timestamp when data was collected
+	Error       string `json:"error,omitempty"` // Error message if collection failed
 }
 
 func main() {
@@ -158,6 +168,9 @@ func main() {
 	emit(out)
 }
 
+// runOSA executes an AppleScript using the osascript command.
+// It pipes the script content to osascript's stdin and captures both
+// stdout and stderr. Returns the stdout content and any execution errors.
 func runOSA(script string) (string, error) {
 	cmd := exec.Command("osascript", "-")
 	cmd.Stdin = strings.NewReader(script)
@@ -171,6 +184,9 @@ func runOSA(script string) (string, error) {
 	return stdout.String(), nil
 }
 
+// parseTSV parses tab-separated values from AppleScript output.
+// Each line should contain a key-value pair separated by a tab character.
+// Empty lines are ignored. Returns a map of key-value pairs.
 func parseTSV(s string) map[string]string {
 	m := map[string]string{}
 	sc := bufio.NewScanner(strings.NewReader(s))
@@ -187,14 +203,15 @@ func parseTSV(s string) map[string]string {
 	return m
 }
 
-// spotifyShareURL converts common Spotify identifiers to a shareable HTTPS URL.
+// spotifyShareURL converts various Spotify identifier formats to shareable HTTPS URLs.
 //
-// Supported inputs:
-//   - spotify:<type>:<id>   (e.g., spotify:track:1BpMw2vf4sWnFXy6liC5tD)
-//   - http(s)://open.spotify.com/<type>/<id>  (normalized to https)
+// Supported input formats:
+//   - spotify:<type>:<id> (e.g., "spotify:track:1BpMw2vf4sWnFXy6liC5tD")
+//   - http://open.spotify.com/<type>/<id> (normalized to https)
+//   - https://open.spotify.com/<type>/<id> (returned as-is)
 //
-// Skips spotify:local:* since those don't have web share URLs.
-// Returns (url, true) on success; ("", false) otherwise.
+// Local files (spotify:local:*) are not supported since they don't have web URLs.
+// Returns the shareable URL and true on success, or empty string and false on failure.
 func spotifyShareURL(s string) (string, bool) {
 	s = strings.TrimSpace(s)
 	if s == "" {
@@ -241,7 +258,14 @@ const (
 	colorBrace  = "\x1b[35m" // magenta
 )
 
-// isTTY checks if the file descriptor is a terminal and supports colors
+// isTTY determines if the given file descriptor represents a terminal that supports colors.
+// It checks if the fd is a terminal using golang.org/x/term, then validates color support
+// through environment variables. Respects the NO_COLOR environment variable to disable colors.
+//
+// Color support is determined by checking:
+//   - COLORTERM environment variable (if set, colors are supported)
+//   - TERM environment variable for common color-supporting values
+//   - NO_COLOR environment variable (if set, colors are disabled)
 func isTTY(fd int) bool {
 	// Check if it's a terminal
 	if !term.IsTerminal(fd) {
@@ -266,7 +290,19 @@ func isTTY(fd int) bool {
 		termEnv == "screen"
 }
 
-// colorizeJSON adds ANSI color codes to JSON output for syntax highlighting
+// colorizeJSON applies ANSI color codes to JSON output for terminal display.
+// Colors are only applied when outputting to a color-supporting TTY.
+//
+// Color scheme:
+//   - Keys: bright blue
+//   - String values: green
+//   - Numbers: cyan
+//   - Booleans: yellow
+//   - Null values: gray
+//   - Structural elements (braces, brackets, commas): magenta
+//
+// The function uses carefully ordered regex patterns to avoid conflicts
+// between different JSON element types.
 func colorizeJSON(data []byte) []byte {
 	isTTYResult := isTTY(int(os.Stdout.Fd()))
 
@@ -304,6 +340,10 @@ func colorizeJSON(data []byte) []byte {
 	return []byte(s)
 }
 
+// emit outputs the Spotify player data as formatted JSON.
+// The output is pretty-printed with 2-space indentation and includes
+// color syntax highlighting when outputting to a color-supporting terminal.
+// When piped to files or non-color terminals, outputs plain JSON.
 func emit(o Output) {
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
