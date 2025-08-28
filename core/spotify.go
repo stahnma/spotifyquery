@@ -169,7 +169,7 @@ func RunSpotifyQuery(postToSlack bool, cfg *config.Config) error {
 	if postToSlack && out.Name != nil && out.Artist != nil && out.ShareURL != nil {
 		slackService := slack.NewService(cfg.Slack.BotToken, cfg.Slack.ChannelID)
 
-		if err := slackService.PostTrackInfo(*out.ShareURL); err != nil {
+		if err := slackService.PostTrackInfo(*out.Artist, *out.Name, *out.ShareURL); err != nil {
 			fmt.Fprintf(os.Stderr, "Warning: Failed to post to Slack: %v\n", err)
 		}
 	}
@@ -344,8 +344,8 @@ func colorizeJSON(data []byte) []byte {
 	s = numberRegex.ReplaceAllString(s, `: `+colorNumber+`$1`+colorReset+`$2`)
 
 	// 6. Finally, color string values (everything else in quotes)
-	stringRegex := regexp.MustCompile(`:\s*"([^"]*)"`)
-	s = stringRegex.ReplaceAllString(s, `: `+colorString+`"$1"`+colorReset)
+	stringRegex := regexp.MustCompile(`:\s*"([^"]*)"\s*([,}])`)
+	s = stringRegex.ReplaceAllString(s, `: `+colorString+`"$1"`+colorReset+`$2`)
 
 	return []byte(s)
 }
