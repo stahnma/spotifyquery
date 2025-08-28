@@ -91,13 +91,25 @@ The tool outputs JSON with the following structure:
 
 ```json
 {
-  "playing": true,
-  "state": "playing",
-  "name": "Song Title",
-  "artist": "Artist Name",
-  "album": "Album Name",
-  "share_url": "https://open.spotify.com/track/123456",
-  "collected_at": "2024-01-01T12:00:00.000000000Z"
+  "playing": false,
+  "state": "paused",
+  "sound_volume": 62,
+  "shuffling": false,
+  "shuffling_enabled": true,
+  "repeating": false,
+  "player_position_ms": 5835,
+  "name": "Here Comes the Hotstepper",
+  "artist": "Dr. Dog",
+  "album": "Here Comes the Hotstepper",
+  "album_artist": "Dr. Dog",
+  "duration_ms": 286635,
+  "track_number": 1,
+  "disc_number": 1,
+  "id": "spotify:track:3mkVy3Xrpeb2L4JBiwVSuC",
+  "popularity": 35,
+  "artwork_url": "https://i.scdn.co/image/ab67616d0000b273df9dc0ede1abeaaf01d2fb43",
+  "share_url": "https://open.spotify.com/track/3mkVy3Xrpeb2L4JBiwVSuC",
+  "collected_at": "2025-08-28T16:53:38.80735Z"
 }
 ```
 
