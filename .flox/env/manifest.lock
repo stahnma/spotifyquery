@@ -8,6 +8,9 @@
       },
       "go": {
         "pkg-path": "go"
+      },
+      "golangci-lint": {
+        "pkg-path": "golangci-lint"
       }
     },
     "hook": {},
@@ -18,17 +21,17 @@
     {
       "attr_path": "gnumake",
       "broken": false,
-      "derivation": "/nix/store/8pa1f5033a506w5qmhywh5df00xz540c-gnumake-4.4.1.drv",
+      "derivation": "/nix/store/y8qi6j4s2d24y2da0gqp85djhq7szp3h-gnumake-4.4.1.drv",
       "description": "Tool to control the generation of non-source files from sources",
       "install_id": "gnumake",
       "license": "GPL-3.0-or-later",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b09dc45f24cf32316283e62aec81ffee3c3e376",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
       "name": "gnumake-4.4.1",
       "pname": "gnumake",
-      "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "rev_count": 838708,
-      "rev_date": "2025-08-03T09:47:33Z",
-      "scrape_date": "2025-08-05T00:29:21.410855Z",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:26:01.554683Z",
       "stabilities": [
         "unstable"
       ],
@@ -39,9 +42,9 @@
         "out"
       ],
       "outputs": {
-        "info": "/nix/store/3jy0yby6jq6n5777rqya8913gr6wzdv5-gnumake-4.4.1-info",
-        "man": "/nix/store/d4dxxrdcri80kbzbkgnzw1bgjjq9ln4g-gnumake-4.4.1-man",
-        "out": "/nix/store/8l8qhxbk9isvxvg22prkvqay1g7x8xh8-gnumake-4.4.1"
+        "info": "/nix/store/zax1c8ysxfq7fw0bq88691qrf06dx3b9-gnumake-4.4.1-info",
+        "man": "/nix/store/rgsx2xvmhknjg8brzirpi45c3bjy1flh-gnumake-4.4.1-man",
+        "out": "/nix/store/hyrkz96cpqn5f0f5p7ng3fq0f044h0hb-gnumake-4.4.1"
       },
       "system": "aarch64-darwin",
       "group": "toplevel",
@@ -50,17 +53,17 @@
     {
       "attr_path": "gnumake",
       "broken": false,
-      "derivation": "/nix/store/8q7z6mjhlx289kxkdjwi6i0j64nzl908-gnumake-4.4.1.drv",
+      "derivation": "/nix/store/1x5ln31dx2i0i0lc9vv2ipxmfvp96z8c-gnumake-4.4.1.drv",
       "description": "Tool to control the generation of non-source files from sources",
       "install_id": "gnumake",
       "license": "GPL-3.0-or-later",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b09dc45f24cf32316283e62aec81ffee3c3e376",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
       "name": "gnumake-4.4.1",
       "pname": "gnumake",
-      "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "rev_count": 838708,
-      "rev_date": "2025-08-03T09:47:33Z",
-      "scrape_date": "2025-08-05T00:49:16.089200Z",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:34:27.687335Z",
       "stabilities": [
         "unstable"
       ],
@@ -71,10 +74,10 @@
         "out"
       ],
       "outputs": {
-        "debug": "/nix/store/q92zl65186ayqg0f6vvhzldyi5bhpc70-gnumake-4.4.1-debug",
-        "info": "/nix/store/ygnz9sgg6xbvvn6q4242jq9a4w0hfr57-gnumake-4.4.1-info",
-        "man": "/nix/store/mnzb2cgp3hpvw3i5dn4bccs6ln4cnkpc-gnumake-4.4.1-man",
-        "out": "/nix/store/9ccm93c2lj2kb6m175grf8775w3yzvng-gnumake-4.4.1"
+        "debug": "/nix/store/phqsvq5432c7655jnchkj2gg8zl67hzh-gnumake-4.4.1-debug",
+        "info": "/nix/store/gskf8zrnqslr6ic7k7wxhiszv1wjwl3p-gnumake-4.4.1-info",
+        "man": "/nix/store/x2ikrfqd9lfiwg3sywvhby677jid4q2y-gnumake-4.4.1-man",
+        "out": "/nix/store/67ixprznvajk1pfjrwcwj6naqp928xxz-gnumake-4.4.1"
       },
       "system": "aarch64-linux",
       "group": "toplevel",
@@ -83,17 +86,17 @@
     {
       "attr_path": "gnumake",
       "broken": false,
-      "derivation": "/nix/store/89w7rbb8sdd34g3x8683w2mgvrz5wl8i-gnumake-4.4.1.drv",
+      "derivation": "/nix/store/myjcmyj1v6yb4w095rpqxd3s1nrl4265-gnumake-4.4.1.drv",
       "description": "Tool to control the generation of non-source files from sources",
       "install_id": "gnumake",
       "license": "GPL-3.0-or-later",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b09dc45f24cf32316283e62aec81ffee3c3e376",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
       "name": "gnumake-4.4.1",
       "pname": "gnumake",
-      "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "rev_count": 838708,
-      "rev_date": "2025-08-03T09:47:33Z",
-      "scrape_date": "2025-08-05T01:08:49.600880Z",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:43:53.565518Z",
       "stabilities": [
         "unstable"
       ],
@@ -104,9 +107,9 @@
         "out"
       ],
       "outputs": {
-        "info": "/nix/store/38s0gpkmw3ripdv7iigqwwvdwgk88sb5-gnumake-4.4.1-info",
-        "man": "/nix/store/xy024cz8x9hxbr3m1im6yk3bh8sd7q0w-gnumake-4.4.1-man",
-        "out": "/nix/store/wwzvqkjzdqwrrwr600lygfq87j1cbvr5-gnumake-4.4.1"
+        "info": "/nix/store/pxjpip2ifbpy2hqdl5v12mkr0fsi7n3k-gnumake-4.4.1-info",
+        "man": "/nix/store/irmkbklf3vrzpwm73anrspw42djydzk2-gnumake-4.4.1-man",
+        "out": "/nix/store/9skp0bwibcghf7ba5n5q6aqwgb161i9k-gnumake-4.4.1"
       },
       "system": "x86_64-darwin",
       "group": "toplevel",
@@ -115,17 +118,17 @@
     {
       "attr_path": "gnumake",
       "broken": false,
-      "derivation": "/nix/store/clqgcxxr6iqqzcr4rgyb1dk4sqv0nyyh-gnumake-4.4.1.drv",
+      "derivation": "/nix/store/5mr8hwa1asihwp0b82jcwslz1mlx1qv2-gnumake-4.4.1.drv",
       "description": "Tool to control the generation of non-source files from sources",
       "install_id": "gnumake",
       "license": "GPL-3.0-or-later",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b09dc45f24cf32316283e62aec81ffee3c3e376",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
       "name": "gnumake-4.4.1",
       "pname": "gnumake",
-      "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "rev_count": 838708,
-      "rev_date": "2025-08-03T09:47:33Z",
-      "scrape_date": "2025-08-05T01:32:59.100072Z",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:51:30.299604Z",
       "stabilities": [
         "unstable"
       ],
@@ -136,10 +139,10 @@
         "out"
       ],
       "outputs": {
-        "debug": "/nix/store/8vg51i45l7bqcc2qfcnjgppxlsfzi11h-gnumake-4.4.1-debug",
-        "info": "/nix/store/hs8b0bwzv4q3w8mf4pbq8l7v0vnjj0f9-gnumake-4.4.1-info",
-        "man": "/nix/store/n414mxklk1mxyk9syhbbh6j0d92l4ggi-gnumake-4.4.1-man",
-        "out": "/nix/store/kzf67ka1wa2055bnsdrnqnv59md9xbxa-gnumake-4.4.1"
+        "debug": "/nix/store/64axkp3yv64qafg42ln08clqf6c6mnky-gnumake-4.4.1-debug",
+        "info": "/nix/store/yz2b37m5chsvk73w5nk7g915gv1s7acn-gnumake-4.4.1-info",
+        "man": "/nix/store/hm1vq8hnsw55v8p8q25clw05prc46vmb-gnumake-4.4.1-man",
+        "out": "/nix/store/hy6gzi2np7wxpc6qyvi24pax5h3vdmyn-gnumake-4.4.1"
       },
       "system": "x86_64-linux",
       "group": "toplevel",
@@ -148,27 +151,27 @@
     {
       "attr_path": "go",
       "broken": false,
-      "derivation": "/nix/store/64rdsj50y7y019hy08vjn9bbkqs4xv94-go-1.24.5.drv",
+      "derivation": "/nix/store/b4f7b08k5wnka70sax9qx3d2p1x2sfb9-go-1.24.6.drv",
       "description": "Go Programming language",
       "install_id": "go",
       "license": "BSD-3-Clause",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "name": "go-1.24.5",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "name": "go-1.24.6",
       "pname": "go",
-      "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "rev_count": 838708,
-      "rev_date": "2025-08-03T09:47:33Z",
-      "scrape_date": "2025-08-05T00:29:21.420126Z",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:26:01.562872Z",
       "stabilities": [
         "unstable"
       ],
       "unfree": false,
-      "version": "1.24.5",
+      "version": "1.24.6",
       "outputs_to_install": [
         "out"
       ],
       "outputs": {
-        "out": "/nix/store/kw1vd98s15vj700m3gx2x2xca2z477i3-go-1.24.5"
+        "out": "/nix/store/rgmygksbfyy75iappxpinv0y8lxfq35x-go-1.24.6"
       },
       "system": "aarch64-darwin",
       "group": "toplevel",
@@ -177,27 +180,27 @@
     {
       "attr_path": "go",
       "broken": false,
-      "derivation": "/nix/store/w5wx665g669d26ms6q6wyl7ga4vqqfbh-go-1.24.5.drv",
+      "derivation": "/nix/store/x4i65glp99jc4a2cxkz1scx29s08dw05-go-1.24.6.drv",
       "description": "Go Programming language",
       "install_id": "go",
       "license": "BSD-3-Clause",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "name": "go-1.24.5",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "name": "go-1.24.6",
       "pname": "go",
-      "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "rev_count": 838708,
-      "rev_date": "2025-08-03T09:47:33Z",
-      "scrape_date": "2025-08-05T00:49:16.100405Z",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:34:27.703146Z",
       "stabilities": [
         "unstable"
       ],
       "unfree": false,
-      "version": "1.24.5",
+      "version": "1.24.6",
       "outputs_to_install": [
         "out"
       ],
       "outputs": {
-        "out": "/nix/store/5bzlaj0c4mqw9p0zrcx5g9vz16vd45dl-go-1.24.5"
+        "out": "/nix/store/w30rz1jlg360zk9d34ylhdvcdz19vyxh-go-1.24.6"
       },
       "system": "aarch64-linux",
       "group": "toplevel",
@@ -206,27 +209,27 @@
     {
       "attr_path": "go",
       "broken": false,
-      "derivation": "/nix/store/sblxqar4xfxgxy55z3h3mdfgrp7vm1lj-go-1.24.5.drv",
+      "derivation": "/nix/store/awngf5b7wwjyay1nlfjnk25a39f823c3-go-1.24.6.drv",
       "description": "Go Programming language",
       "install_id": "go",
       "license": "BSD-3-Clause",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "name": "go-1.24.5",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "name": "go-1.24.6",
       "pname": "go",
-      "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "rev_count": 838708,
-      "rev_date": "2025-08-03T09:47:33Z",
-      "scrape_date": "2025-08-05T01:08:49.607740Z",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:43:53.573934Z",
       "stabilities": [
         "unstable"
       ],
       "unfree": false,
-      "version": "1.24.5",
+      "version": "1.24.6",
       "outputs_to_install": [
         "out"
       ],
       "outputs": {
-        "out": "/nix/store/b72n20ixzl5ja9vciwahkr30bhmsn5jc-go-1.24.5"
+        "out": "/nix/store/kcj6a7xghpcsg6by6kkc03s3rr2v34il-go-1.24.6"
       },
       "system": "x86_64-darwin",
       "group": "toplevel",
@@ -235,27 +238,143 @@
     {
       "attr_path": "go",
       "broken": false,
-      "derivation": "/nix/store/n3ggn80wfjjbrgnlh0q8zrmfmdlcmd0b-go-1.24.5.drv",
+      "derivation": "/nix/store/lz6sgami9527f9s2sh8bd8y2imv8nqqb-go-1.24.6.drv",
       "description": "Go Programming language",
       "install_id": "go",
       "license": "BSD-3-Clause",
-      "locked_url": "https://github.com/flox/nixpkgs?rev=5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "name": "go-1.24.5",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "name": "go-1.24.6",
       "pname": "go",
-      "rev": "5b09dc45f24cf32316283e62aec81ffee3c3e376",
-      "rev_count": 838708,
-      "rev_date": "2025-08-03T09:47:33Z",
-      "scrape_date": "2025-08-05T01:32:59.111899Z",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:51:30.313652Z",
       "stabilities": [
         "unstable"
       ],
       "unfree": false,
-      "version": "1.24.5",
+      "version": "1.24.6",
       "outputs_to_install": [
         "out"
       ],
       "outputs": {
-        "out": "/nix/store/y4awwzp30ka130wmjrpaqjmjdf9p010w-go-1.24.5"
+        "out": "/nix/store/g026m2zmhiah7izdmmvgsq847z2sh1h1-go-1.24.6"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "golangci-lint",
+      "broken": false,
+      "derivation": "/nix/store/gjpp09llq117kb14gza3nlgv6zvplp6x-golangci-lint-2.4.0.drv",
+      "description": "Fast linters Runner for Go",
+      "install_id": "golangci-lint",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "name": "golangci-lint-2.4.0",
+      "pname": "golangci-lint",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:26:01.609006Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.4.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/qj8ra318bgzfkrky6sw734igb4sd5kia-golangci-lint-2.4.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "golangci-lint",
+      "broken": false,
+      "derivation": "/nix/store/7bh81qxlam14pn2b8k6sz1kr0c45rhhv-golangci-lint-2.4.0.drv",
+      "description": "Fast linters Runner for Go",
+      "install_id": "golangci-lint",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "name": "golangci-lint-2.4.0",
+      "pname": "golangci-lint",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:34:27.798381Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.4.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/s4hy8cpw5ynr3dqp53bqdqq7dqnnj5pw-golangci-lint-2.4.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "golangci-lint",
+      "broken": false,
+      "derivation": "/nix/store/d474ilcnjjl07kyqxzl44pkv984cjyk8-golangci-lint-2.4.0.drv",
+      "description": "Fast linters Runner for Go",
+      "install_id": "golangci-lint",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "name": "golangci-lint-2.4.0",
+      "pname": "golangci-lint",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:43:53.621324Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.4.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/2b0459163c6jz4r4sfw9z9vrfwr5bc33-golangci-lint-2.4.0"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "golangci-lint",
+      "broken": false,
+      "derivation": "/nix/store/akdp81hczi3ys6vja2a338vm6xb5d50c-golangci-lint-2.4.0.drv",
+      "description": "Fast linters Runner for Go",
+      "install_id": "golangci-lint",
+      "license": "GPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "name": "golangci-lint-2.4.0",
+      "pname": "golangci-lint",
+      "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+      "rev_count": 852432,
+      "rev_date": "2025-08-27T03:49:43Z",
+      "scrape_date": "2025-08-28T03:51:30.397663Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "2.4.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/arxp4wfknba8kazch9s18dm609bis8jg-golangci-lint-2.4.0"
       },
       "system": "x86_64-linux",
       "group": "toplevel",
