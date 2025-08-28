@@ -1,15 +1,21 @@
+# golangci-lint v2 configuration
+version: "2"
+
 run:
   timeout: 5m
-  go: "1.24.5"
+  go: "1.24.6"
 
-linters:
+# In v2, formatters and linters are separate
+formatters:
   enable:
     - gofmt
     - goimports
+
+linters:
+  enable:
     - govet
     - errcheck
     - staticcheck
-    - gosimple
     - ineffassign
     - unused
     - misspell

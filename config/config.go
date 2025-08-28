@@ -1,6 +1,9 @@
+// Package config provides configuration management for the spotifyquery application.
 package config
 
 import (
+	"fmt"
+
 	"github.com/spf13/viper"
 )
 
@@ -26,8 +29,12 @@ func LoadConfig(path string) (*Config, error) {
 	viper.SetEnvPrefix("SPOTIFYQUERY")
 
 	// Bind environment variables
-	viper.BindEnv("slack.bot_token", "SPOTIFYQUERY_SLACK_BOT_TOKEN")
-	viper.BindEnv("slack.channel_id", "SPOTIFYQUERY_SLACK_CHANNEL_ID")
+	if err := viper.BindEnv("slack.bot_token", "SPOTIFYQUERY_SLACK_BOT_TOKEN"); err != nil {
+		return nil, fmt.Errorf("failed to bind env var SPOTIFYQUERY_SLACK_BOT_TOKEN: %w", err)
+	}
+	if err := viper.BindEnv("slack.channel_id", "SPOTIFYQUERY_SLACK_CHANNEL_ID"); err != nil {
+		return nil, fmt.Errorf("failed to bind env var SPOTIFYQUERY_SLACK_CHANNEL_ID: %w", err)
+	}
 
 	// If a config file is found, read it in
 	if err := viper.ReadInConfig(); err != nil {
